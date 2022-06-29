@@ -40,18 +40,18 @@ const createCollege = async function (req, res) {
     if (!/^[a-zA-Z][a-zA-Z ]+[a-zA-Z]+$/.test(data.fullName)) {
       return res
         .status(400)
-        .send({ status: false, message: "plz enter valid fullname ,dont use space between letters for college short name" });
+        .send({ status: false, message: "plz enter valid full name ,dont use space between letters for college short name" });
     }
    
     let isValidFullName = await collegeModel.findOne({
-      fullName: data.fullName,
+      name: data.fullName,
     });
     if (isValidFullName) {
       return res
         .status(400)
         .send({
           status: false,
-         message: "Already one college registered with this same fullname",
+          message: "Already one college registered with this same fullname",
         });
     }
 

@@ -9,7 +9,7 @@ const internSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      trim: true,
+      
       lowercase: true,
       unique: true,
       required: [true, "candidate email id is required"]
