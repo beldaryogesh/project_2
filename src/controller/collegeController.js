@@ -51,7 +51,7 @@ const createCollege = async function (req, res) {
         .status(400)
         .send({
           status: false,
-git          message: "Already one college registered with this same fullname",
+         message: "Already one college registered with this same fullname",
         });
     }
 
