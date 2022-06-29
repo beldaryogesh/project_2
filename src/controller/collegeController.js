@@ -16,10 +16,11 @@ const createCollege = async function (req, res) {
         message: "College name is required for create a college doc",
       });
     }
-    if (!/^([a-zA-Z]+)$/.test(data.name)) {
+    // college short name validation
+    if (!/^[a-z]+$/.test(data.name)) {
       return res
         .status(400)
-        .send({ status: false, massege: "plz enter valid name ,dont use space between letters for college short name" });
+        .send({ status: false, message: "plz enter valid name ,dont use space between letters for college short name" });
     }
     let isValidName = await collegeModel.findOne({ name: data.name });
     if (isValidName) {
@@ -36,11 +37,12 @@ const createCollege = async function (req, res) {
         message: "college fullname is required for creating a college doc ",
       });
     }
-    // if (!/^[a-zA-Z ]*$/.test(data.fullName)) {
-    //   return res
-    //     .status(400)
-    //     .send({ status: false, massege: "plz enter valid full name ,dont use number and special characters for college fullname" });
-    // }
+    if (!/^[a-zA-Z][a-zA-Z ]+[a-zA-Z]+$/.test(data.fullName)) {
+      return res
+        .status(400)
+        .send({ status: false, message: "plz enter valid fullname ,dont use space between letters for college short name" });
+    }
+   
     let isValidFullName = await collegeModel.findOne({
       fullName: data.fullName,
     });
@@ -49,7 +51,7 @@ const createCollege = async function (req, res) {
         .status(400)
         .send({
           status: false,
-          message: "Already one college registered with this same fullname",
+git          message: "Already one college registered with this same fullname",
         });
     }
 
@@ -63,7 +65,7 @@ const createCollege = async function (req, res) {
           message: "logolink is required for creating a college doc",
         });
     }
-
+    // logolink validation
     if (
       !/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/.test(
         data.logoLink
@@ -73,6 +75,7 @@ const createCollege = async function (req, res) {
         .status(400)
         .send({ status: false, message: "plz enter a valid logolink" });
     }
+
 
     let collegeCreated = await collegeModel.create(data);
     res.status(201).send({ status: true, data: collegeCreated });
