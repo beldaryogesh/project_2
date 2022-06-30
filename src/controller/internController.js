@@ -12,11 +12,11 @@ const createIntern = async function(req, res){
         if(!data.name){
             return res.status(400).send({status:false, message:"Candidate name is required "})
         }
-        if(Object.keys(data.name).length == 0 || data.name.length == 0 ){
-            return res.status(400).send({status:false, message:"Enter valid name should not"})
+        if(data.name.length == 0 ){
+            return res.status(400).send({status:false, message:"Candidate name is not empty"})
         }
         //candidate name validation
-        if(!/[^a-zA-Z]*$/.test(data.name)){
+        if(!/^[a-zA-Z][a-zA-Z ]+[a-zA-Z]+$/.test(data.name)){
             return res.status(400).send({status:false, message:"Enter the valid name with title& don't use number or special character"})
         }
         if(!data.email){
@@ -37,14 +37,14 @@ const createIntern = async function(req, res){
         if(!/^(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})$/.test(data.mobile)){
             return res.status(400).send({status:false, message:"Please enter the valid mobile number"})
         }
-        let isRegisteredMobile = await internModel.find({email: data.mobile})
+        let isRegisteredMobile = await internModel.find({mobile: data.mobile})
         if(isRegisteredMobile.length != 0){
             return res.status(400).send({status:false, message:"Candidate mobile number is already registered "})
         }
         if(!data.collegeName){
             return res.status(400).send({status:false, message:"College name is required "})
         }
-        if(Object.keys(data.collegeName).length == 0 || data.collegeName.length == 0 ){
+        if( data.collegeName.length == 0 ){
             return res.status(400).send({status:false, message:"Enter valid college id"})
         }
         let collegeName = data.collegeName.toUpperCase()
@@ -52,6 +52,7 @@ const createIntern = async function(req, res){
         if(!isCollegeName){
             return res.status(400).send({status:false, message:"your college is not registered with us "})
         }
+
         data.collegeId = isCollegeName._id
         delete data.collegeName
 
@@ -71,7 +72,7 @@ const getCollegeDetails = async function(req, res){
     try {
         let clgName = req.query.collegeName
         if(!clgName){
-            return res.status(400).send({status:false, message:"Enter the college name first"})
+            return res.status(400).send({status:false, message:" Please provide proper college name"})
         }
         let collegeName = req.query.collegeName.toUpperCase()
         let isValidCollege =await collegeModel.findOne({name: collegeName})

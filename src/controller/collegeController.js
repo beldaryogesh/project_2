@@ -17,7 +17,7 @@ const createCollege = async function (req, res) {
       });
     }
     // college short name validation
-    if (!/^[a-z]+$/.test(data.name)) {
+    if (!/(^[a-zA-Z]{0,20}$)/.test(data.name)) {
       return res
         .status(400)
         .send({ status: false, message: "plz enter valid name ,dont use space between letters for college short name" });
@@ -31,8 +31,9 @@ const createCollege = async function (req, res) {
           message: "Already one college registered with this same name",
         });
     }
-    if (!data.fullName) {
-      return res.status(400).send({
+    if (!data.fullName) {      
+      return res
+      .status(400).send({
         status: false,
         message: "college fullname is required for creating a college doc ",
       });
@@ -40,7 +41,7 @@ const createCollege = async function (req, res) {
     if (!/^[a-zA-Z][a-zA-Z ]+[a-zA-Z]+$/.test(data.fullName)) {
       return res
         .status(400)
-        .send({ status: false, message: "plz enter valid full name ,dont use space between letters for college short name" });
+        .send({ status: false, message: "plz enter valid full name ,dont use space between letters for college full name" });
     }
    
     let isValidFullName = await collegeModel.findOne({
@@ -51,7 +52,7 @@ const createCollege = async function (req, res) {
         .status(400)
         .send({
           status: false,
-          message: "Already one college registered with this same fullname",
+          message: "Already one college registered with this same full name",
         });
     }
 
@@ -65,15 +66,15 @@ const createCollege = async function (req, res) {
           message: "logolink is required for creating a college doc",
         });
     }
-    // logolink validation
+    // logolink validation whether that link ends with .(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|jfif)
     if (
-      !/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/.test(
+      !/^https?:\/\/(.+\/)+.+(\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|jfif))$/i.test(
         data.logoLink
-      )
+      )  
     ) {
       return res
         .status(400)
-        .send({ status: false, message: "plz enter a valid logolink" });
+        .send({ status: false, message: "Please enter a valid logoLink" });
     }
 
 
