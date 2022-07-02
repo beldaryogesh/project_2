@@ -20,7 +20,7 @@ const createCollege = async function (req, res) {
     if (!/(^[a-zA-Z]{0,20}$)/.test(data.name)) {
       return res
         .status(400)
-        .send({ status: false, message: "plz enter valid name ,dont use space between letters for college short name" });
+        .send({ status: false, message: "plz use alpha words ,dont use space between letters for college short name" });
     }
     let isValidName = await collegeModel.findOne({ name: data.name });
     if (isValidName) {
@@ -41,7 +41,7 @@ const createCollege = async function (req, res) {
     if (!/^[a-zA-Z][a-zA-Z ]+[a-zA-Z]+$/.test(data.fullName)) {
       return res
         .status(400)
-        .send({ status: false, message: "plz enter valid full name ,dont use space between letters for college full name" });
+        .send({ status: false, message: "plz use alpha words in full name ,dont use space between letters for college full name" });
     }
    
     let isValidFullName = await collegeModel.findOne({

@@ -17,7 +17,7 @@ const createIntern = async function(req, res){
         }
         //candidate name validation
         if(!/^[a-zA-Z][a-zA-Z ]+[a-zA-Z]+$/.test(data.name)){
-            return res.status(400).send({status:false, message:"Enter the valid name with title& don't use number or special character"})
+            return res.status(400).send({status:false, message:"Enter the valid name with title & don't use number or special character"})
         }
         if(!data.email){
             return res.status(400).send({status:false, message:"Candidate email is required "})
@@ -34,7 +34,8 @@ const createIntern = async function(req, res){
         if(!data.mobile){
             return res.status(400).send({status:false, message:"candidate mobile is required "})
         }
-        if(!/^(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})$/.test(data.mobile)){
+        if(!/^[6,9]\d{9}$/
+        .test(data.mobile)){
             return res.status(400).send({status:false, message:"Please enter the valid mobile number"})
         }
         let isRegisteredMobile = await internModel.find({mobile: data.mobile})
@@ -89,7 +90,7 @@ const getCollegeDetails = async function(req, res){
             logoLink: isValidCollege.logoLink,
             interns: getIntern
         }
-            res.status(201).send({satus: true, msg: getAllIntern})
+            res.status(201).send({satus: true, data: getAllIntern})
 
     } catch (error) {
             res.status(500).send({status:false, msg: error.message})
