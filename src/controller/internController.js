@@ -90,7 +90,7 @@ const getCollegeDetails = async function(req, res){
             logoLink: isValidCollege.logoLink,
             interns: getIntern
         }
-            res.status(201).send({satus: true, data: getAllIntern})
+            res.status(200).send({satus: true, data: getAllIntern})
 
     } catch (error) {
             res.status(500).send({status:false, msg: error.message})
